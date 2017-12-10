@@ -182,9 +182,9 @@ export default class Grafico extends Component {
                 {
                   consumo <= 600*total                  
                   ?
-                  <p className = "aceptable cien"> Estas en un consumo aceptable, recuerda que no debes superar los {mensual_maximo.toFixed(2) } metros cubicos de agua mensuales, o te perderas de ahorrar { parseInt(ahorro) } soles.</p>
+                  <p className = "aceptable cien"> Estas en un consumo aceptable, recuerda que no debes superar los {mensual_maximo.toFixed(2) } metros cubicos de agua mensuales, o te perderas de un descuento de { parseInt(ahorro) } soles.</p>
                   :
-                  <p className = "noaceptable cien"> Lo sentimos has superado la cuota de consumo de {mensual_maximo.toFixed(2) } metros cubicos de agua, te perdiste de ahorrar { parseInt(ahorro) } soles.</p>
+                  <p className = "noaceptable cien"> Lo sentimos has superado la cuota de consumo de {mensual_maximo.toFixed(2) } metros cubicos de agua, te perdiste de un descuento de { parseInt(ahorro) } soles.</p>
                 }                  
               </div>  
             </div>  
