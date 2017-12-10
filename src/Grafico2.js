@@ -74,7 +74,7 @@ export default class Grafico extends Component {
       })
 
       rows.forEach(row=>{
-        
+        row[1] = (parseFloat(row[1])/(1000*1.00))
       })
 
       this.setState({ rows })

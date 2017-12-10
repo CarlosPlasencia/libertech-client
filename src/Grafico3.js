@@ -17,7 +17,7 @@ export default class Grafico extends Component {
       options: {
         title: 'Consumo litros por Mes',
         hAxis: { title: 'Mes' },
-        vAxis: { title: 'Litros'},
+        vAxis: { title: 'Litros (m3) '},
         legend: 'none',
       },
       rows: [],
@@ -28,7 +28,7 @@ export default class Grafico extends Component {
         },
         {
           type: 'number',
-          label: 'Litros',
+          label: 'Litros (m3)',
         },
       ],
       color: '#xxxx',
@@ -66,6 +66,9 @@ export default class Grafico extends Component {
       dataset.forEach(dato=>{
         const mes_int = parseInt(dato.mes)
         rows[mes_int-1][1]+=dato.litros
+      })
+      rows.forEach(row=>{
+        row[1] = (parseFloat(row[1])/(1000*1.00))
       })
       this.setState({ rows })
     })
