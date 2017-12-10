@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { initializeApp, database} from 'firebase';
+import {  database} from 'firebase';
 import moment from 'moment'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'

@@ -68,7 +68,27 @@
   text-decoration:none;   
 }
 
+.aceptable {
+  background-color: #e1f7d5; 
+  width: 30%;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px green;
+  font-size: 15px;
+}
 
+.noaceptable {
+  background-color:  #ffbdbd;
+  width: 30%;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px red;
+  font-size: 15px;
+}
+
+.cien {
+  width: 100%;
+}
 
 
 .d-flex {

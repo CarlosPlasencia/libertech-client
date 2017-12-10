@@ -40,7 +40,8 @@ export default class Grafico extends Component {
         },
       ],
       color: '#xxxx',
-      fecha: "2017-11-28"
+      fecha: "2017-11-28",
+      consumo: 0
     };
   }
 
@@ -54,12 +55,14 @@ export default class Grafico extends Component {
     var ref_ini = database().ref().child('metric')
     ref_ini.on('child_added', data=>{
       const dataset = data.val()
-      if (moment(this.convertirFecha(dataset.fecha)).isAfter( this.props.fecha )) {
+      if (moment(this.convertirFecha(dataset.fecha)).isAfter( this.state.fecha )) {
         //console.log( dataset )
         //console.log( "nueva: ",dataset.fecha )
         this.setState({
           fecha: this.convertirFecha(dataset.fecha)
         });
+        console.log( dataset.fecha  )
+        this.cargarDatos( this.convertirFecha(dataset.fecha) )
       }
     })
 	}
@@ -82,11 +85,12 @@ export default class Grafico extends Component {
         //const hora = dataset[dato].hora.split(':')[0] + 1
         const litros = dataset[dato].litros
         rows[j][1] = litros
-        suma_pesos+= litros*(-pesos[j]) 
+        suma_pesos+= parseFloat(litros)
+        //console.log( litros )
         j++
         //rows.push([hora, litros])
       }
-      if (j === 24) {
+      /*if (j === 24) {
         console.log( suma_pesos )
         console.log( suma_pesos + pesos[24] )
         if( suma_pesos - pesos[24] < 0 ){
@@ -95,8 +99,10 @@ export default class Grafico extends Component {
           color = "#zzzzz"
         }
         console.log(color)
-      }
-      this.setState({ rows, color })
+      }*/
+      //console.log(suma_pesos)
+      this.setState({ rows, consumo:suma_pesos  })
+      this.props.onChange( suma_pesos )
     })
   }
 
@@ -109,6 +115,9 @@ export default class Grafico extends Component {
   }
 
   render() {
+
+    const { consumo } = this.state
+ 
     if (this.state.rows.length) {
       return(
         <div>
@@ -131,10 +140,32 @@ export default class Grafico extends Component {
               options={this.state.options}
               graph_id="ScatterChart"
               width={'90%'}
-              height={'400px'}
+              height={'350px'}
               legend_toggle
             />
           </div>
+
+          <div className = "seccion-inferior">
+            <div className = "estado-seccion">  
+              <h4>Estado en el dia { moment(this.state.fecha).format("DD/MM/YYYY") } </h4>
+              <div className = "estado-items">
+                <p><b>Consumo total: </b> { consumo } litros. </p>
+                <p><b>Costo total: </b> { ((consumo/1000)*2.5).toFixed(2) } soles. </p>
+                
+                {
+                  consumo <= 600                  
+                  ?
+                  <p className = "aceptable cien"> Estas en un consumo aceptable, recuerda que no debes superar los 600 litros diarios.</p>
+                  :
+                  <p className = "noaceptable cien"> Lo sentimos has superado la cuota de consumo de 600 litros.</p>
+                }                  
+              </div>  
+            </div>  
+            <div className = "direccion-seccion">  
+              <h4> Dirección </h4>
+              <img src="https://sm.askmen.com/askmen_latam/photo/default/cambo-google-maps_a9n5.jpg" width="400" />
+            </div>         
+          </div>   
         </div>
       )
     } else {

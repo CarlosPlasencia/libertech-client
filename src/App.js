@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import autobind from 'autobind-decorator'
-import logo from './logo.svg';
+import logo from './logo.png';
 import './App.css';
 
 import Grafico from './Grafico'
@@ -12,22 +12,25 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      tipo: "dia"
+      tipo: "dia",
+      consumo: 0
     }
   }
 
-  changeData(fecha){
-    console.log( fecha )
-    this.setState({ fecha });
+  changeConsumo(consumo){
+    console.log( consumo )
+    this.setState({ consumo });
   }
 
   changeTipo(tipo){
     this.setState({
-      tipo 
+      tipo,
+      consumo:0
     });
   }
 
   render() {
+    const { consumo } = this.state
     return (
       <div className="App">
         <header className="App-header">
@@ -36,7 +39,17 @@ class App extends Component {
           <img className="App-profile_image" src="https://scontent.flim5-4.fna.fbcdn.net/v/t1.0-9/23031375_10214804037997983_7641411816442929984_n.jpg?oh=384f2325d0d6a17a1f2f8a309fe81e42&oe=5AD6E47E" width="70" />
         </header>
         <p className="App-intro">
-          Consumo en tiempo real del Agua.
+          {
+            !consumo
+            ?
+            null
+            :
+            consumo <= 600                  
+            ?
+            <p className="aceptable"> Estas en un consumo aceptable ( {consumo.toFixed(2)} litros ), recuerda que no debes superar los 600 litros diarios.</p>
+            :
+            <p className="noaceptable"> Lo sentimos has superado la cuota de consumo de 600 litros. Tu consumo es { consumo.toFixed(2) } litros.</p>
+          }
         </p>
         <div className="">
           <ul className="App-list-button">
@@ -49,7 +62,7 @@ class App extends Component {
             {
               this.state.tipo == 'dia'
               ?
-              <Grafico />
+              <Grafico onChange={ this.changeConsumo.bind(this) } />
               :
               this.state.tipo == 'mes'
               ?
@@ -58,22 +71,7 @@ class App extends Component {
               <Grafico3 />
             }
           </div>
-        </div>
-        <div className = "seccion-inferior">
-         <div className = "estado-seccion">  
-            <h4>Estado: </h4>
-            <div className = "estado-items">
-              <p><b>Dias de consumo alto: </b> 25 </p>
-              <p><b>Dias de consumo bajo: </b> 36 </p>
-              <p><b>Valoración: </b> 59.02 % </p>
-            </div>  
-          </div>  
-          <div className = "direccion-seccion">  
-            <h4> Direccion </h4>
-            <img src="https://sm.askmen.com/askmen_latam/photo/default/cambo-google-maps_a9n5.jpg" width="400" />
-          </div>
-         
-        </div>    
+        </div>   
       </div>
     );
   }

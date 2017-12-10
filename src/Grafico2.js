@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { initializeApp, database} from 'firebase';
+import {  database} from 'firebase';
 import moment from 'moment'
 import Select from 'react-select'
 import 'react-select/dist/react-select.css'
@@ -34,7 +34,10 @@ export default class Grafico extends Component {
       ],
       color: '#xxxx',
       año: '2017',
-      mes: '11'
+      mes: '11',
+      consumo: 0,
+      malos:0,
+      buenos:0
     };
   }
 
@@ -65,19 +68,26 @@ export default class Grafico extends Component {
         rows.push([i+"",0])
       }
       //console.log(mes)
+      let consumo = 0
       dataset.forEach(dato=>{
         if( parseInt(dato.mes) === mes ){
           //console.log( dato )
           let dia = parseInt(dato.dia) 
           rows[dia-1][1]+=dato.litros
+          consumo+=dato.litros
         }
       })
-
+      let buenos=0, malos = 0
       rows.forEach(row=>{
+        if( parseFloat(row[1]) > 600 ){
+          malos++
+        } else {
+          buenos++
+        }
         row[1] = (parseFloat(row[1])/(1000*1.00))
       })
 
-      this.setState({ rows })
+      this.setState({ rows, consumo, malos, buenos })
     })
   }
 
@@ -122,6 +132,15 @@ export default class Grafico extends Component {
     }
 
     if (this.state.rows.length) {
+      const { consumo } = this.state
+      const dias=[31,29,31,30,31,30,31,31,30,31,30,31]
+      const total= dias[ this.state.mes ]
+      
+      const consumo_total = parseFloat(consumo)/1000
+      const mensual_maximo = (600*total)/1000
+      const costo_total = consumo_total*2.5
+
+      const ahorro = (this.state.buenos/total)*0.1*costo_total
       return(
         <div>
           
@@ -152,6 +171,27 @@ export default class Grafico extends Component {
               height={'400px'}
               legend_toggle
             />
+          </div>
+          <div className = "seccion-inferior">
+            <div className = "estado-seccion">  
+              <h4>Estado en el mes { this.state.mes } del { this.state.año } </h4>
+              <div className = "estado-items">
+                <p><b>Consumo total: </b> { consumo_total.toFixed(2) } metros cubicos de agua. </p>
+                <p><b>Costo total: </b> { costo_total.toFixed(2) } soles. </p>
+                
+                {
+                  consumo <= 600*total                  
+                  ?
+                  <p className = "aceptable cien"> Estas en un consumo aceptable, recuerda que no debes superar los {mensual_maximo.toFixed(2) } metros cubicos de agua mensuales, o te perderas de ahorrar { parseInt(ahorro) } soles.</p>
+                  :
+                  <p className = "noaceptable cien"> Lo sentimos has superado la cuota de consumo de {mensual_maximo.toFixed(2) } metros cubicos de agua, te perdiste de ahorrar { parseInt(ahorro) } soles.</p>
+                }                  
+              </div>  
+            </div>  
+            <div className = "direccion-seccion">  
+              <h4> Dirección </h4>
+              <img src="https://sm.askmen.com/askmen_latam/photo/default/cambo-google-maps_a9n5.jpg" width="400" />
+            </div>         
           </div>
         </div>
       )
