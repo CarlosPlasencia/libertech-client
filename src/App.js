@@ -76,6 +76,10 @@ class App extends Component {
             <Grafico3 />
           }
         </div>
+
+        <div className = "info">  
+          <img src="https://raw.githubusercontent.com/NestorPlasencia/rm_images/master/1.png" />
+        </div>
  
       </div>
     );

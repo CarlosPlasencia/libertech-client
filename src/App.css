@@ -99,9 +99,11 @@
 
 .visible {
   visibility: visible;
+  opacity: 1;
 }
 .nonvisible {
   visibility: hidden;
+  opacity: 0;
 }
 
 .cien {
@@ -175,5 +177,18 @@
 #map {
   width: 400px;
   height: 400px;
+
+}
+
+.info  {
+  transition-duration: 1s;
+  transition-timing-function: linear;
+}
+.info img {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  z-index: 999999;
 
 }
