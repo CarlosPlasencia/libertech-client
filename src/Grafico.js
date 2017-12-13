@@ -163,7 +163,7 @@ export default class Grafico extends Component {
             </div>  
             <div className = "direccion-seccion">  
               <h4> Dirección </h4>
-              <img src="https://sm.askmen.com/askmen_latam/photo/default/cambo-google-maps_a9n5.jpg" width="400" />
+              <div id="map" width="400" height="400"></div>
             </div>         
           </div>   
         </div>

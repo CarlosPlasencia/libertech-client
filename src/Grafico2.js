@@ -18,18 +18,14 @@ export default class Grafico extends Component {
       options: {
         title: 'Consumo metros cubicos por hora',
         hAxis: { title: 'Dia' },
-        vAxis: { title: 'Litros (m3)'},
+        vAxis: { title: 'Metros cubicos (m3)'},
         legend: 'none',
       },
       rows: [],
       columns: [
         {
-          type: 'string',
-          label: 'Dia',
-        },
-        {
           type: 'number',
-          label: 'Litros (m3)',
+          label: 'Metros cubicos (m3)',
         },
       ],
       color: '#xxxx',
