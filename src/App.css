@@ -81,7 +81,7 @@
 
 .aceptable {
   background-color: #e1f7d5;
-  width: 75%; 
+  width: 500px; 
   padding: 1rem;
   border-radius: 10px;
   box-shadow: 0px 0px 10px green;
@@ -89,7 +89,7 @@
 }
 
 .noaceptable {
-  width: 75%;
+  width: 500px;
   background-color:  #ffbdbd;
   padding: 1rem;
   border-radius: 10px;
@@ -186,7 +186,7 @@
 }
 .info img {
   position: fixed;
-  bottom: 0;
+  top: 80px;
   right: 0;
   width: 400px;
   z-index: 999999;

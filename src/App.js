@@ -13,13 +13,20 @@ class App extends Component {
     super(props)
     this.state = {
       tipo: "dia",
-      consumo: 0
+      consumo: 0,
+      numero: 1,
+      clase: 'nonvisible',
+      buenos: 0
     }
   }
 
-  changeConsumo(consumo){
-    console.log( consumo )
-    this.setState({ consumo });
+  changeConsumo(consumo, buenos){
+    this.setState({ consumo,buenos, numero: (Math.floor(Math.random() * 8) + 1 ), clase: 'visible' });
+    setTimeout(()=> {
+      this.setState({
+        clase: 'nonvisible'
+      });
+    }, 3500);
   }
 
   changeTipo(tipo){
@@ -30,7 +37,14 @@ class App extends Component {
   }
 
   render() {
-    const { consumo } = this.state
+    const { consumo, buenos } = this.state
+
+    const consumo_total = parseFloat(consumo)/1000
+    const mensual_maximo = (600*30)/1000
+    const costo_total = consumo_total*2.5
+
+      const ahorro = (buenos/30)*0.1*costo_total
+
     return (
       <div className="App">
         
@@ -41,19 +55,27 @@ class App extends Component {
         </header>
 
         <div className="App-superior">
-          <p className="App-intro">
+          <div className={"App-intro " }>
             {
               !consumo
               ?
-              null
+              <p className="aceptable nonvisible "> Estas en un consumo aceptable (10000 litros ), recuerda que no debes superar los 600 litros diarios.</p>
               :
-              consumo <= 600                  
+              this.state.tipo === 'dia'
               ?
-              <p className="aceptable"> Estas en un consumo aceptable ( {consumo.toFixed(2)} litros ), recuerda que no debes superar los 600 litros diarios.</p>
+                consumo <= 600                  
+                ?
+                <p className="aceptable"> Estas en un consumo aceptable ( {consumo.toFixed(2)} litros ), recuerda que no debes superar los 600 litros diarios.</p>
+                :
+                <p className="noaceptable"> Lo sentimos has superado la cuota de consumo de 600 litros. Tu consumo es { consumo.toFixed(2) } litros.</p>
               :
-              <p className="noaceptable"> Lo sentimos has superado la cuota de consumo de 600 litros. Tu consumo es { consumo.toFixed(2) } litros.</p>
+                consumo <= 600*30                
+                ?
+                <p className = "aceptable"> Estas en un consumo aceptable, recuerda que no debes superar los {mensual_maximo.toFixed(2) } metros cubicos de agua mensuales, o te perderas de un descuento de { parseInt(ahorro) } soles.</p>
+                :
+                <p className = "noaceptable"> Lo sentimos has superado la cuota de consumo de {mensual_maximo.toFixed(2) } metros cubicos de agua, te perdiste de un descuento de { parseInt(ahorro) } soles.</p>
             }
-          </p>
+          </div>
 
 
           <ul className="App-list-button">
@@ -71,14 +93,14 @@ class App extends Component {
             :
             this.state.tipo == 'mes'
             ?
-            <Grafico2 />
+            <Grafico2 onChange={ this.changeConsumo.bind(this) }/>
             :
             <Grafico3 />
           }
         </div>
 
-        <div className = "info">  
-          <img src="https://raw.githubusercontent.com/NestorPlasencia/rm_images/master/1.png" />
+        <div className = {"info "+this.state.clase} >  
+          <img src={`https://raw.githubusercontent.com/NestorPlasencia/rm_images/master/${this.state.numero}.png`} />
         </div>
  
       </div>

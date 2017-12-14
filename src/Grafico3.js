@@ -23,6 +23,10 @@ export default class Grafico extends Component {
       rows: [],
       columns: [
         {
+          type: 'string',
+          label: 'Mes',
+        },
+        {
           type: 'number',
           label: 'Litros (m3)',
         },

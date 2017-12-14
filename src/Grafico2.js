@@ -24,6 +24,10 @@ export default class Grafico extends Component {
       rows: [],
       columns: [
         {
+          type: 'string',
+          label: 'Dia',
+        },
+        {
           type: 'number',
           label: 'Metros cubicos (m3)',
         },
@@ -82,7 +86,7 @@ export default class Grafico extends Component {
         }
         row[1] = (parseFloat(row[1])/(1000*1.00))
       })
-
+      this.props.onChange( consumo, buenos )
       this.setState({ rows, consumo, malos, buenos })
     })
   }
@@ -128,7 +132,11 @@ export default class Grafico extends Component {
     }
 
     if (this.state.rows.length) {
+      
+      console.log( this.state.rows )
+
       const { consumo } = this.state
+      
       const dias=[31,29,31,30,31,30,31,31,30,31,30,31]
       const total= dias[ this.state.mes ]
       

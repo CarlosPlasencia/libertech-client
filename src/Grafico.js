@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { initializeApp, database} from 'firebase';
 import moment from 'moment'
+
 //import functions from 'firebase-functions';
 
 import { Chart } from 'react-google-charts';
@@ -163,7 +164,7 @@ export default class Grafico extends Component {
             </div>  
             <div className = "direccion-seccion">  
               <h4> Dirección </h4>
-              <div id="map" width="400" height="400"></div>
+             <img src="https://sm.askmen.com/askmen_latam/photo/default/cambo-google-maps_a9n5.jpg" width="400" />
             </div>         
           </div>   
         </div>
